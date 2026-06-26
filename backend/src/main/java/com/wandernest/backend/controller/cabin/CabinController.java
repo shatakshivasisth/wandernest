@@ -25,7 +25,32 @@ public class CabinController {
     }
 
     @GetMapping
-    public List<Cabin> getAllCabins() {
+    public List<CabinResponse> getAllCabins() {
         return cabinService.getAllCabins();
+    }
+    @GetMapping("/{id}")
+    public CabinResponse getCabinById(@PathVariable Long id) {
+        return cabinService.getCabinById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCabin(@PathVariable Long id) {
+
+        cabinService.deleteCabin(id);
+
+        return "Cabin deleted successfully.";
+    }
+
+    @GetMapping("/search")
+    public List<CabinResponse> searchCabins(@RequestParam String location) {
+
+        return cabinService.searchByLocation(location);
+    }
+    @PutMapping("/{id}")
+    public CabinResponse updateCabin(
+            @PathVariable Long id,
+            @Valid @RequestBody CabinRequest request) {
+
+        return cabinService.updateCabin(id, request);
     }
 }

@@ -2,6 +2,7 @@ package com.wandernest.backend.entity;
 
 import com.wandernest.backend.enums.CabinStatus;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -157,13 +158,15 @@ public class Cabin {
 
     private LocalDateTime updatedAt;
 
+
+    @JsonManagedReference
     @OneToMany(
             mappedBy = "cabin",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<CabinImage> images = new ArrayList<>();
-
+   
     public Cabin() {
     }
 

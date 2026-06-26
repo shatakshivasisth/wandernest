@@ -6,7 +6,7 @@ import com.wandernest.backend.entity.Cabin;
 import com.wandernest.backend.entity.CabinImage;
 import com.wandernest.backend.repository.CabinRepository;
 import org.springframework.stereotype.Service;
-
+import com.wandernest.backend.exception.CabinNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +20,41 @@ public class CabinService {
     }
 
     public CabinResponse addCabin(CabinRequest request) {
-
         Cabin cabin = new Cabin();
+        Cabin saved = cabinRepository.save(cabin);
+
+        return mapToResponse(saved);
+    }
+
+    public List<CabinResponse> getAllCabins() {
+
+        return cabinRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+    public CabinResponse getCabinById(Long id) {
+
+        Cabin cabin = cabinRepository.findById(id)
+                .orElseThrow(() ->
+                        new CabinNotFoundException("Cabin not found."));
+
+        return mapToResponse(cabin);
+    }
+
+    public void deleteCabin(Long id) {
+
+        Cabin cabin = cabinRepository.findById(id)
+                .orElseThrow(() ->
+                        new CabinNotFoundException("Cabin not found."));
+
+        cabinRepository.delete(cabin);
+    }
+    public CabinResponse updateCabin(Long id, CabinRequest request) {
+
+        Cabin cabin = cabinRepository.findById(id)
+                .orElseThrow(() ->
+                        new CabinNotFoundException("Cabin not found."));
 
         cabin.setTitle(request.getTitle());
         cabin.setDescription(request.getDescription());
@@ -32,49 +65,40 @@ public class CabinService {
         cabin.setBathrooms(request.getBathrooms());
         cabin.setHostName(request.getHostName());
 
-        if (request.getImageUrls() != null) {
+        Cabin updatedCabin = cabinRepository.save(cabin);
 
-            for (int i = 0; i < request.getImageUrls().size(); i++) {
+        return mapToResponse(updatedCabin);
+    }
+    public List<CabinResponse> searchByLocation(String location) {
 
-                CabinImage image = new CabinImage();
-
-                image.setImageUrl(request.getImageUrls().get(i));
-
-                image.setPrimaryImage(i == 0);
-
-                image.setCabin(cabin);
-
-                cabin.getImages().add(image);
-            }
-        }
-
-        Cabin saved = cabinRepository.save(cabin);
+        return cabinRepository.findByLocationContainingIgnoreCase(location)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+    private CabinResponse mapToResponse(Cabin cabin) {
 
         CabinResponse response = new CabinResponse();
 
-        response.setId(saved.getId());
-        response.setTitle(saved.getTitle());
-        response.setDescription(saved.getDescription());
-        response.setLocation(saved.getLocation());
-        response.setPricePerNight(saved.getPricePerNight());
-        response.setCapacity(saved.getCapacity());
-        response.setBedrooms(saved.getBedrooms());
-        response.setBathrooms(saved.getBathrooms());
-        response.setRating(saved.getRating());
-        response.setStatus(saved.getStatus().name());
-        response.setHostName(saved.getHostName());
+        response.setId(cabin.getId());
+        response.setTitle(cabin.getTitle());
+        response.setDescription(cabin.getDescription());
+        response.setLocation(cabin.getLocation());
+        response.setPricePerNight(cabin.getPricePerNight());
+        response.setCapacity(cabin.getCapacity());
+        response.setBedrooms(cabin.getBedrooms());
+        response.setBathrooms(cabin.getBathrooms());
+        response.setRating(cabin.getRating());
+        response.setStatus(cabin.getStatus().name());
+        response.setHostName(cabin.getHostName());
 
         response.setImageUrls(
-                saved.getImages()
+                cabin.getImages()
                         .stream()
                         .map(CabinImage::getImageUrl)
-                        .collect(Collectors.toList())
+                        .toList()
         );
 
         return response;
-    }
-
-    public List<Cabin> getAllCabins() {
-        return cabinRepository.findAll();
     }
 }

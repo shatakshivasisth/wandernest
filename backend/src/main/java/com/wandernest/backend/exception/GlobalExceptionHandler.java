@@ -26,4 +26,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("message", ex.getMessage()));
     }
+    @ExceptionHandler(CabinNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCabinNotFound(
+            CabinNotFoundException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", ex.getMessage()));
+    }
 }
