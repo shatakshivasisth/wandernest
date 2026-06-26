@@ -1,4 +1,4 @@
-package com.wandernest.backend.config;
+/*package com.wandernest.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,4 +22,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-}
+}*/
