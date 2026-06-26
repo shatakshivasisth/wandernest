@@ -1,16 +1,16 @@
-package com.wandernest.backend.dto;
+package com.wandernest.backend.dto.auth;
 
-public class RegisterResponse {
+public class LoginResponse {
 
     private Long id;
     private String fullName;
     private String email;
     private String message;
 
-    public RegisterResponse() {
+    public LoginResponse() {
     }
 
-    public RegisterResponse(Long id, String fullName, String email, String message) {
+    public LoginResponse(Long id, String fullName, String email, String message) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
