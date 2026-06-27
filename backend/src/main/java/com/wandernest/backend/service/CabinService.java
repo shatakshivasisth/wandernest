@@ -27,7 +27,32 @@ public class CabinService {
     }
 
     public CabinResponse addCabin(CabinRequest request) {
+
         Cabin cabin = new Cabin();
+
+        cabin.setTitle(request.getTitle());
+        cabin.setDescription(request.getDescription());
+        cabin.setLocation(request.getLocation());
+        cabin.setPricePerNight(request.getPricePerNight());
+        cabin.setCapacity(request.getCapacity());
+        cabin.setBedrooms(request.getBedrooms());
+        cabin.setBathrooms(request.getBathrooms());
+        cabin.setHostName(request.getHostName());
+
+        if (request.getImageUrls() != null) {
+
+            for (int i = 0; i < request.getImageUrls().size(); i++) {
+
+                CabinImage image = new CabinImage();
+
+                image.setImageUrl(request.getImageUrls().get(i));
+                image.setPrimaryImage(i == 0);
+                image.setCabin(cabin);
+
+                cabin.getImages().add(image);
+            }
+        }
+
         Cabin saved = cabinRepository.save(cabin);
 
         return mapToResponse(saved);
