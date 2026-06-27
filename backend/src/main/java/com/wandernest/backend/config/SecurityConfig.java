@@ -22,13 +22,22 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 
-                .authorizeHttpRequests(auth -> auth.requestMatchers(
-                                        "/api/v1/users/register",
-                                        "/api/v1/users/login",
-                                        "/api/v1/health",
-                                        "/api/v1/cabins",
-                                        "/api/v1/cabins/**"
-                                ).permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/api/v1/users/register",
+                                "/api/v1/users/login",
+                                "/api/v1/health",
+
+                                "/api/v1/cabins",
+                                "/api/v1/cabins/**",
+
+                                "/api/v1/bookings",
+                                "/api/v1/bookings/**",
+
+                                "/api/v1/wishlist",
+                                "/api/v1/wishlist/**"
+                        )
+                        .permitAll()
 
                         .anyRequest().authenticated()
                 )

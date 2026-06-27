@@ -34,4 +34,20 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));
     }
+    @ExceptionHandler(BookingException.class)
+    public ResponseEntity<Map<String, String>> handleBookingException(
+            BookingException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", ex.getMessage()));
+    }
+    @ExceptionHandler(WishlistException.class)
+    public ResponseEntity<Map<String, String>> handleWishlistException(
+            WishlistException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of("message", ex.getMessage()));
+    }
 }

@@ -9,7 +9,14 @@ import org.springframework.stereotype.Service;
 import com.wandernest.backend.exception.CabinNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import com.wandernest.backend.specification.CabinSpecification;
+import org.springframework.data.jpa.domain.Specification;
 
+import java.math.BigDecimal;
 @Service
 public class CabinService {
 
@@ -76,6 +83,17 @@ public class CabinService {
                 .map(this::mapToResponse)
                 .toList();
     }
+    public Page<CabinResponse> getCabins(int page, int size, String sortBy) {
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(sortBy).ascending()
+        );
+
+        return cabinRepository.findAll(pageable)
+                .map(this::mapToResponse);
+    }
     private CabinResponse mapToResponse(Cabin cabin) {
 
         CabinResponse response = new CabinResponse();
@@ -100,5 +118,22 @@ public class CabinService {
         );
 
         return response;
+    }
+    public List<CabinResponse> filterCabins(
+            String location,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            Integer capacity) {
+
+        Specification<Cabin> specification = Specification
+                .where(CabinSpecification.hasLocation(location))
+                .and(CabinSpecification.hasMinPrice(minPrice))
+                .and(CabinSpecification.hasMaxPrice(maxPrice))
+                .and(CabinSpecification.hasCapacity(capacity));
+
+        return cabinRepository.findAll(specification)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 }
