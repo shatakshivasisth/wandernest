@@ -17,5 +17,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             LocalDate checkIn,
             LocalDate checkOut
     );
-
+    boolean existsByUserIdAndCabinId(Long userId, Long cabinId);
 }

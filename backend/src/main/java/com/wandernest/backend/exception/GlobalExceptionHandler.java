@@ -50,4 +50,12 @@ public class GlobalExceptionHandler {
                 .badRequest()
                 .body(Map.of("message", ex.getMessage()));
     }
+    @ExceptionHandler(ReviewException.class)
+    public ResponseEntity<Map<String, String>> handleReviewException(
+            ReviewException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of("message", ex.getMessage()));
+    }
 }

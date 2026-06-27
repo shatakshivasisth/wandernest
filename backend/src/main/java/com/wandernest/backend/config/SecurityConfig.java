@@ -35,7 +35,10 @@ public class SecurityConfig {
                                 "/api/v1/bookings/**",
 
                                 "/api/v1/wishlist",
-                                "/api/v1/wishlist/**"
+                                "/api/v1/wishlist/**",
+
+                                "/api/v1/reviews",
+                                "/api/v1/reviews/**"
                         )
                         .permitAll()
 
