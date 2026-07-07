@@ -1,0 +1,17 @@
+# IntelliJ
+.idea/
+
+# Backend secrets
+backend/.env
+backend/src/main/resources/application-local.properties
+
+# Backend build
+backend/target/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db

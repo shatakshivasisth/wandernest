@@ -7,6 +7,8 @@ public class WishlistResponse {
     private String cabinTitle;
     private String location;
     private String imageUrl;
+    private Double rating;
+    private String price;
 
     public WishlistResponse() {
     }
@@ -49,5 +51,21 @@ public class WishlistResponse {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

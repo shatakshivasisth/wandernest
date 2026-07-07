@@ -28,28 +28,28 @@ public class ReviewRequest {
         return userId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public Long getCabinId() {
         return cabinId;
-    }
-
-    public void setCabinId(Long cabinId) {
-        this.cabinId = cabinId;
     }
 
     public Integer getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
     public String getComment() {
         return comment;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setCabinId(Long cabinId) {
+        this.cabinId = cabinId;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     public void setComment(String comment) {

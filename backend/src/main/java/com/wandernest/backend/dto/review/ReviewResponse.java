@@ -1,12 +1,14 @@
 package com.wandernest.backend.dto.review;
 
+import java.time.LocalDateTime;
+
 public class ReviewResponse {
 
     private Long reviewId;
-    private String customerName;
-    private String cabinTitle;
+    private String userName;
     private Integer rating;
     private String comment;
+    private LocalDateTime createdAt;
 
     public ReviewResponse() {
     }
@@ -19,20 +21,12 @@ public class ReviewResponse {
         this.reviewId = reviewId;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCabinTitle() {
-        return cabinTitle;
-    }
-
-    public void setCabinTitle(String cabinTitle) {
-        this.cabinTitle = cabinTitle;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getRating() {
@@ -49,5 +43,13 @@ public class ReviewResponse {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
