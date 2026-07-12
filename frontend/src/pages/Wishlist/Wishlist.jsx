@@ -18,17 +18,7 @@ function Wishlist() {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    useEffect(() => {
-
-        if (user) {
-
-            loadWishlist();
-
-        }
-
-    }, []);
-
-    const loadWishlist = async () => {
+    async function loadWishlist() {
 
         try {
 
@@ -56,7 +46,21 @@ function Wishlist() {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        if (user) {
+
+            void loadWishlist();
+
+        } else {
+
+            setLoading(false);
+
+        }
+
+    }, [user]);
 
     const removeWishlist = async (cabinId) => {
 

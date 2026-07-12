@@ -1,6 +1,7 @@
 package com.wandernest.backend.dto.payment;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class CreateOrderRequest {
@@ -9,6 +10,7 @@ public class CreateOrderRequest {
     private Long bookingId;
 
     @NotNull
+    @Positive
     private BigDecimal amount;
 
     public CreateOrderRequest() {
@@ -29,4 +31,5 @@ public class CreateOrderRequest {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
 }

@@ -32,13 +32,7 @@ function CabinDetails() {
 
     const [liked, setLiked] = useState(false);
 
-    useEffect(() => {
-
-        fetchCabin();
-
-    }, [id]);
-
-    const fetchCabin = async () => {
+    async function fetchCabin() {
 
         try {
 
@@ -60,7 +54,13 @@ function CabinDetails() {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        void fetchCabin();
+
+    }, [id]);
 
     const handleWishlist = async () => {
 

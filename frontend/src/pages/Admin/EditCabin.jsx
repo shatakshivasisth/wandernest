@@ -15,13 +15,7 @@ function EditCabin() {
 
     const [cabin, setCabin] = useState(null);
 
-    useEffect(() => {
-
-        loadCabin();
-
-    }, []);
-
-    const loadCabin = async () => {
+    async function loadCabin() {
 
         try {
 
@@ -41,7 +35,13 @@ function EditCabin() {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        void loadCabin();
+
+    }, [id]);
 
     const handleSubmit = async (form) => {
 

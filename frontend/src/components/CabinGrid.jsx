@@ -7,13 +7,7 @@ function CabinGrid() {
     const [cabins, setCabins] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-
-        loadCabins();
-
-    }, []);
-
-    const loadCabins = async () => {
+    async function loadCabins() {
 
         try {
 
@@ -31,7 +25,13 @@ function CabinGrid() {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        void loadCabins();
+
+    }, []);
 
     if (loading) {
 

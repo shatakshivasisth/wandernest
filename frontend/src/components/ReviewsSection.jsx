@@ -16,13 +16,7 @@ function ReviewsSection({ cabinId }) {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    useEffect(() => {
-
-        loadReviews();
-
-    }, [cabinId]);
-
-    const loadReviews = async () => {
+    async function loadReviews() {
 
         try {
 
@@ -38,7 +32,13 @@ function ReviewsSection({ cabinId }) {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        void loadReviews();
+
+    }, [cabinId]);
 
     const submitReview = async () => {
 

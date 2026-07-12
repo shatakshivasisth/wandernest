@@ -10,7 +10,9 @@ import com.wandernest.backend.exception.BookingException;
 import com.wandernest.backend.repository.BookingRepository;
 import com.wandernest.backend.repository.CabinRepository;
 import com.wandernest.backend.repository.UserRepository;
+import com.wandernest.backend.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
@@ -22,15 +24,18 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final CabinRepository cabinRepository;
+    private final PaymentRepository paymentRepository;
 
     public BookingService(
             BookingRepository bookingRepository,
             UserRepository userRepository,
-            CabinRepository cabinRepository
+            CabinRepository cabinRepository,
+            PaymentRepository paymentRepository
     ) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
         this.cabinRepository = cabinRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     public BookingResponse createBooking(BookingRequest request) {
@@ -61,8 +66,9 @@ public class BookingService {
         }
 
         boolean alreadyBooked = !bookingRepository
-                .findByCabinIdAndCheckOutDateAfterAndCheckInDateBefore(
+                .findByCabinIdAndBookingStatusInAndCheckOutDateAfterAndCheckInDateBefore(
                         cabin.getId(),
+                        List.of(BookingStatus.PENDING, BookingStatus.CONFIRMED),
                         request.getCheckInDate(),
                         request.getCheckOutDate()
                 )
@@ -92,7 +98,7 @@ public class BookingService {
         booking.setCheckOutDate(request.getCheckOutDate());
         booking.setGuests(request.getGuests());
         booking.setTotalAmount(totalAmount);
-        booking.setBookingStatus(BookingStatus.CONFIRMED);
+        booking.setBookingStatus(BookingStatus.PENDING);
 
         Booking savedBooking = bookingRepository.save(booking);
 
@@ -147,6 +153,25 @@ public class BookingService {
         );
 
         return response;
+
+    }
+    @Transactional
+    public void deletePendingBooking(Long bookingId) {
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() ->
+                        new BookingException("Booking not found."));
+
+        if (booking.getBookingStatus() != BookingStatus.PENDING) {
+
+            throw new BookingException(
+                    "Only pending bookings can be deleted."
+            );
+
+        }
+
+        paymentRepository.deleteByBookingId(bookingId);
+        bookingRepository.delete(booking);
 
     }
 

@@ -18,17 +18,7 @@ function Bookings() {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    useEffect(() => {
-
-        if (user) {
-
-            loadBookings();
-
-        }
-
-    }, []);
-
-    const loadBookings = async () => {
+    async function loadBookings() {
 
         try {
 
@@ -50,7 +40,21 @@ function Bookings() {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        if (user) {
+
+            void loadBookings();
+
+        } else {
+
+            setLoading(false);
+
+        }
+
+    }, [user]);
 
     const cancelBooking = async (bookingId) => {
 

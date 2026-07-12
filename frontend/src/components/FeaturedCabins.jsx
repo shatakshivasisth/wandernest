@@ -7,13 +7,7 @@ function FeaturedCabins() {
     const [cabins, setCabins] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-
-        fetchCabins();
-
-    }, []);
-
-    const fetchCabins = async () => {
+    async function fetchCabins() {
 
         try {
 
@@ -32,7 +26,13 @@ function FeaturedCabins() {
 
         }
 
-    };
+    }
+
+    useEffect(() => {
+
+        void fetchCabins();
+
+    }, []);
 
     return (
 
